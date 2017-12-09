@@ -13,3 +13,5 @@ Vue.prototype.axios=axios
 
 Vue.prototype.$Indicator=Indicator
 Vue.prototype.$Toast=Toast
+
+Vue.use(Lazyload)
