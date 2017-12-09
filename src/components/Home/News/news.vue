@@ -8,7 +8,7 @@
 							{{item.title}}
 							<p class="mui-ellipsis">{{item.zhaiyao}}</p>
               <div class="time">
-                <span>发表时间：{{item.add_time | formatDate('YYYY-MM-DD')}}</span>
+                <span>发表时间：{{item.add_time |formatDate('YYYY-MM-DD')}}</span>
                 <span>点击次数：{{item.click}}</span>
               </div>
 						</div>
@@ -19,17 +19,11 @@
 </template>
 
 <script>
-import moment from "moment";
 export default {
   data() {
     return {
       newslist: []
     };
-  },
-  filters: {
-    formatDate: function(time, fmt) {
-      return moment(time).format(fmt);
-    }
   },
   created() {
     this.getnewslist();

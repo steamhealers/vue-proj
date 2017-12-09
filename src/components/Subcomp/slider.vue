@@ -22,13 +22,14 @@ export default {
       imglist: []
     };
   },
+  props:['imgurl'],
   created() {
     this.getlunbo();
   },
   methods: {
     getlunbo: function() {
       this.$http
-        .get('getlunbo')
+        .get(this.imgurl)
         .then(res => {
           this.imglist = res.data.message;
         })

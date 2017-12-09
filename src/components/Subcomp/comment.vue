@@ -18,7 +18,7 @@
         <div class="item" v-for="(item,index) in comments" :key="index">
             <div class="content">{{item.content}}</div>
             <div>
-                <span class="user">{{item.user_name}}</span>  <span>{{item.add_time|formatDate('YYYY-MM-DD HH:mm:ss')}}</span>
+                <span class="user">{{item.user_name}}</span>  <span>{{item.add_time|formatDate('HH:mm:ss YYYY-MM-DD')}}</span>
             </div>
         </div>
 
@@ -30,8 +30,6 @@
 </template>
 
 <script>
-import { Toast } from "mint-ui";
-import moment from "moment";
 export default {
   data() {
     return {
@@ -41,11 +39,6 @@ export default {
     };
   },
   props: ["id"],
-  filters: {
-    formatDate: function(time, fmt) {
-      return moment(time).format(fmt);
-    }
-  },
   created() {
     this.getcomments();
   },
@@ -69,7 +62,7 @@ export default {
     },
     submitComment() {
       if (!this.msg) {
-        Toast("请输入评论内容!");
+        this.$Toast("请输入评论内容!");
         return;
       }
       this.$http
@@ -81,7 +74,7 @@ export default {
           } else {
             console.log("服务器错误");
           }
-          Toast(res.data.message);
+          this.$Toast(res.data.message);
         })
         .catch(err => {
           console.log(err);

@@ -1,6 +1,6 @@
 <template>
   <div class="mui-content">
-    <slide></slide>
+    <slide :imgurl="imgurl"></slide>
 
     <ul class="mui-table-view mui-grid-view mui-grid-9">
       <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" :style="color" v-for="(item,index) in menus" :key="index">
@@ -24,13 +24,15 @@
     data() {
       return {
         menus: [],
-        color:'background:#fff'
+        color:'background:#fff',
+        imgurl:''
       }
     },
     components: {
       slide
     },
     created() {
+        this.imgurl='getlunbo'
         this.getmenus()
     },
     methods: {

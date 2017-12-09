@@ -7,7 +7,7 @@
     <div class="details" v-html="news.content">
       
     </div>
-    <comment :id="id"></comment>
+    <comment :id="id" :commenturl="commenturl"></comment>
 
   </div>
 </template>
@@ -19,19 +19,16 @@ import '../../../../statics/css/image.css'
 export default {
   data() {
     return {
-      news: {}
+      news: {},
+      commenturl:''
     };
   },
   components:{
       comment
   },
-  filters:{
-    formatDate:function(time,fmt){
-      return moment(time).format(fmt)
-    }
-  },
   props: ["id"],
   created() {
+    this.commenturl='',
     this.getnews();
   },
   methods: {
