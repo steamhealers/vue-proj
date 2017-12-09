@@ -23,20 +23,21 @@
         </div>
 
         <div class="more">
-            <button class="mui-btn mui-btn-primary mui-btn-outlined">加载更多</button>
+            <button class="mui-btn mui-btn-primary mui-btn-outlined" @click="more">加载更多</button>
         </div>
 
     </div>
 </template>
 
 <script>
-import {Toast} from 'mint-ui'
+import { Toast } from "mint-ui";
 import moment from "moment";
 export default {
   data() {
     return {
       comments: [],
-      msg:''
+      msg: "",
+      page:1
     };
   },
   props: ["id"],
@@ -50,14 +51,14 @@ export default {
   },
 
   methods: {
-    getcomments: function() {
-    //   console.log(this.id);
+    getcomments() {
+      //   console.log(this.id);
       this.$http
-        .get("getcomments/" + this.id + "?pageindex=1")
+        .get("getcomments/" + this.id + "?pageindex="+this.page)
         .then(res => {
           // console.log(res);
           if (res.status === 200 && res.data.status === 0) {
-            this.comments = res.data.message;
+            this.comments =this.comments.concat(res.data.message);
           } else {
             console.log("服务器错误");
           }
@@ -66,29 +67,35 @@ export default {
           console.log(err);
         });
     },
-    submitComment(){
-      if(!this.msg){
-        Toast('请输入评论内容!')
-        return
+    submitComment() {
+      if (!this.msg) {
+        Toast("请输入评论内容!");
+        return;
       }
-        this.$http.post('/postcomment/'+this.id,'content='+this.msg).then(res=>{
+      this.$http
+        .post("/postcomment/" + this.id, "content=" + this.msg)
+        .then(res => {
           if (res.status === 200 && res.data.status === 0) {
-              Toast(res.data.message);
-              this.msg="";
-              this.getcomments()
-          }else{
-              console.log('服务器错误');
+            this.msg = "";
+            this.getcomments();
+          } else {
+            console.log("服务器错误");
           }
-        }).catch(err=>{
-            console.log(err);
+          Toast(res.data.message);
         })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    more(){
+      this.page++
+      this.getcomments()
     }
   }
 };
 </script>
 
 <style scoped>
-
 /*  评论的样式 */
 .submitcomment {
   text-align: center;
