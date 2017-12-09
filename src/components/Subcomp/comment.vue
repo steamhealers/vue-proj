@@ -5,7 +5,7 @@
         <h4>提交评论</h4>
 
         <div class="submitcomment">
-            <textarea placeholder="请输入评论内容" v-text="msg"></textarea>
+            <textarea placeholder="请输入评论内容" v-model="msg"></textarea>
             <button class="mui-btn mui-btn-primary" @click="submitComment">发表</button>
         </div>
             
@@ -55,7 +55,7 @@ export default {
       this.$http
         .get("getcomments/" + this.id + "?pageindex=1")
         .then(res => {
-        //   console.log(res);
+          // console.log(res);
           if (res.status === 200 && res.data.status === 0) {
             this.comments = res.data.message;
           } else {
@@ -67,14 +67,19 @@ export default {
         });
     },
     submitComment(){
+      if(!this.msg){
+        Toast('请输入评论内容!')
+        return
+      }
         this.$http.post('/postcomment/'+this.id,'content='+this.msg).then(res=>{
           if (res.status === 200 && res.data.status === 0) {
               Toast(res.data.message);
               this.msg="";
+              this.getcomments()
           }else{
               console.log('服务器错误');
           }
-        }).catch(wee=>{
+        }).catch(err=>{
             console.log(err);
         })
     }
