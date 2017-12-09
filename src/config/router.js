@@ -7,6 +7,7 @@ import home from '../components/Home/home.vue'
     import news from '../components/Home/News/news.vue'
         import newsDetail from '../components/Home/News/detile.vue'
     import share from '../components/Home/Share/share.vue'
+        import shareDetail from '../components/Home/Share/sharedetail.vue'
     import buy from '../components/Home/Buy/buy.vue'
     import contack from '../components/Home/Contack/contack.vue'
     import video from '../components/Home/Videos/video.vue'
@@ -30,7 +31,8 @@ let router = new VueRouter({
         {path: '/contack',component: contack},
         {path: '/video',component: video},
         {path: '/feedback',component: feedback},
-        {name:'newsDetail',path: '/news/:id',component: newsDetail , props:true}
+        {name:'newsDetail',path: '/news/:id',component: newsDetail , props:true},
+        {name:'shareDetail',path: '/share/:id',component: shareDetail , props:true}
     ]
 })
 
