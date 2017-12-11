@@ -13,19 +13,25 @@ export default {
       number: 1
     };
   },
-  props:['stock'],
+  created() {
+    // console.log(ab);
+  },
+  props: ["stock"],
   methods: {
     add() {
       this.number++;
       if (this.number > this.stock) {
         this.number = this.stock;
       }
+      this.communicate()
     },
     sub() {
       this.number--;
       if (this.number < 0) {
         this.number = 0;
       }
+      this.communicate()
+      
     },
     getNum() {
       this.number = parseInt(this.number);
@@ -34,6 +40,11 @@ export default {
       } else if (this.number < 0) {
         this.number = 0;
       }
+      this.communicate()
+      
+    },
+    communicate(){
+      this.$emit('numchange',this.number)
     }
   }
 };

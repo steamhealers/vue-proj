@@ -13,7 +13,7 @@
             </div>
             <div class="num">
                 购买数量：
-                <number :stock="info.stock_quantity"></number>
+                <number :stock="info.stock_quantity"  @numchange="fn1"></number>
                 <!-- <div class="number">
                     <input type="button" >
                     <input type="text">
@@ -24,7 +24,7 @@
             </div>
             <div class="button">
                 <button class="mui-btn mui-btn-primary">立刻购买</button>
-                <button class="mui-btn mui-btn-danger">加入购物车</button>
+                <button class="mui-btn mui-btn-danger" >加入购物车</button>
             </div>
         </div>
 
@@ -83,6 +83,11 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    fn1(num){
+      // console.log(num);
+      this.number = num
+      console.log(this.number);
     }
   }
 };

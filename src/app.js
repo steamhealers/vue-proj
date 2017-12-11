@@ -1,5 +1,4 @@
 import Vue from 'vue'
-
 import './config/plugins'
 import './config/filters'
 import router from './config/router'

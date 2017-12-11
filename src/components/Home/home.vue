@@ -18,6 +18,7 @@
 <script>
   import common from '../Common/config'
   import slide from '../Subcomp/slider.vue'
+  import '../../config/common'
 
   export default {
 
@@ -66,7 +67,8 @@
           }]
         }.message
       }
-    }
+    },
+    
 
   }
 </script>
