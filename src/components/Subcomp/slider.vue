@@ -42,6 +42,9 @@ export default {
 </script>
 
 <style>
+.mint-swipe{
+  height: auto;
+}
 .mint-swipe-items-wrap {
   height: 200px;
 }
