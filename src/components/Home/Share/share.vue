@@ -1,16 +1,15 @@
 <template>
 	<div class="mui-content">
 		<div class="title">
-			<ul>
+			<ul class="cate">
 				<li>
-					<a href="javascript:;" @click="getimages(-1)">全部</a>
+					<a href="javascript:;" @click="getimages(-1)" class="mui-btn mui-btn-primary">全部</a>
 				</li>
-				<li v-for="(item,index) in category" :key="item.id">
-					<a href="javascript:;" @click="getimages(item.id)">{{item.title}}</a>
+				<li v-for="(item,index) in category" :key="item.id" >
+					<a href="javascript:;" class="mui-btn mui-btn-primary" @click="getimages(item.id)">{{item.title}}</a>
 				</li>
 			</ul>
 		</div>
-
 		<div class="images">
 			<ul>
 				<li v-for="(item,index) in imglist" :key="item.id">
@@ -74,13 +73,17 @@
 		list-style-type: none;
 	}
 
+	/* ul.cate{
+		background-color: #fff;
+	} */
+
 	.title {
 		overflow-x: auto;
 		overflow-y: hidden;
 	}
 
 	.title>ul {
-		width: 1000px;
+		width: 1100px;
 	}
 	/* webkit核心的浏览器 隐藏滚动条 */
 
@@ -89,13 +92,14 @@
 	}
 
 	.title>ul>li {
-		display: inline-block;
-		padding: 20px 5px;
+		display: block;
+		float: left;
+		padding: 10px 5px;
 	}
 
-	.images {
+	/* .images {
 		margin-top: 10px;
-	}
+	} */
 
 	.images>ul {}
 

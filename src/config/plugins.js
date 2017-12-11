@@ -6,7 +6,7 @@ import '../../statics/css/mui.css'
 
 
 import axios from 'axios'
-axios.defaults.baseURL='http://60.205.213.93:8080/api/'
+axios.defaults.baseURL='http://60.205.213.93:8899/api/'
 Vue.prototype.$http=axios
 Vue.prototype.axios=axios
 

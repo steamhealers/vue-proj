@@ -1,7 +1,7 @@
 <template>
 <div class="main">
   <header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" v-if="isShow" @click="goback"></a>
 			<h1 class="mui-title"></h1>
 		</header>
     <router-view></router-view>
@@ -30,9 +30,31 @@
 export default {
   data() {
     return {
-      msg: "这是一个新模版"
+			msg: "这是一个新模版",
+			isShow:false
     };
-  }
+	},
+	created(){
+		this.judgeback(this.$route.path)
+	},
+  methods: {
+    goback() {
+      this.$router.back();
+    },
+    judgeback(path) {
+			let arr=['/home','/cart','/member','/search']
+			if(arr.indexOf(path)==-1){
+				this.isShow=true
+			}else{
+				this.isShow=false
+			}
+		}
+	},
+	watch:{
+		'$route':function(newValue){
+			this.judgeback(newValue.path)
+		}
+	}
 };
 </script>
 

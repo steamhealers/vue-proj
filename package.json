@@ -58,6 +58,7 @@
     "postcss-loader": "^2.0.9",
     "regex-cache": "^0.4.4",
     "spdy": "^3.4.7",
+    "vue-preview": "^1.0.5",
     "vue-router": "^3.0.1",
     "webpack-dev-server": "^2.9.7"
   }

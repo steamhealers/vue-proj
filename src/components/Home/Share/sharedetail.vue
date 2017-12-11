@@ -8,7 +8,7 @@
         <ul class="mui-table-view mui-grid-view mui-grid-9">
             <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-4" v-for="(item,index) in imglist" :key="index">
                 <a href="#">
-               <img :src="item.src" alt="">
+               <img class="preview-img"  :src="item.src" height="100" @click="$preview.open(index, imglist)">
                </a>
             </li>
         </ul>  
@@ -16,24 +16,31 @@
         <p class="content" v-html="info.content">
           <!-- {{info.content}} -->
         </p>
-
+        <comment></comment>
         <!-- 评论--> 
     </div>
 </template>
 
 <script>
 //导出组件
+import Vue from 'vue'
+import VuePreview from "vue-preview";
+Vue.use(VuePreview);
+import comment from "../../Subcomp/comment.vue";
 export default {
   data() {
     return {
-        info:{},
-        imglist:[]
+      info: {},
+      imglist: []
     };
+  },
+  components: {
+    comment
   },
   props: ["id"],
   created() {
-    this.getimageInfo()
-    this.getthumimages()
+    this.getimageInfo();
+    this.getthumimages();
   },
   methods: {
     getimageInfo() {
@@ -42,8 +49,8 @@ export default {
         .then(res => {
           if (res.status === 200 && res.data.status === 0) {
             // console.log(res);
-            if(res.data.message.length>0){
-                this.info=res.data.message[0]
+            if (res.data.message.length > 0) {
+              this.info = res.data.message[0];
             }
           } else {
             console.log("服务器错误");
@@ -53,13 +60,18 @@ export default {
           console.log(err);
         });
     },
-    getthumimages(){
-         this.$http
+    getthumimages() {
+      this.$http
         .get("getthumimages/" + this.id)
         .then(res => {
           if (res.status === 200 && res.data.status === 0) {
             // console.log(res);
-                this.imglist=res.data.message
+            this.imglist = res.data.message;
+            this.imglist.forEach(item => {
+              item.h=400,
+              item.w=600
+            });
+            
           } else {
             console.log("服务器错误");
           }
