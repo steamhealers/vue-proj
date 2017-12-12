@@ -1,5 +1,5 @@
 <template>
-    <div class="mui-numbox">
+    <div class="mui-numbox" @click='refreshNum'>
         <button class="mui-btn mui-btn-numbox-minus" type="button" @click="sub">-</button>
         <input class="mui-input-numbox" type="number" v-model="number" v-on:blur="getNum">
         <button class="mui-btn mui-btn-numbox-plus" type="button" @click="add">+</button>
@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { upData } from '../../config/localstroge'
 export default {
   data() {
     return {
@@ -14,9 +15,12 @@ export default {
     };
   },
   created() {
+    if(this.id){
+      this.number=this.num
+    }
     // console.log(ab);
-  },
-  props: ["stock"],
+  }, 
+  props: ["stock",'num','id'],
   methods: {
     add() {
       this.number++;
@@ -45,6 +49,11 @@ export default {
     },
     communicate(){
       this.$emit('numchange',this.number)
+    },
+    refreshNum(){
+      console.log(1);
+      console.log(this.number);
+      upData({id:this.id,count:this.number})
     }
   }
 };

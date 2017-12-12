@@ -13,18 +13,20 @@
             </div>
             <div class="num">
                 购买数量：
-                <number :stock="info.stock_quantity"  @numchange="fn1"></number>
-                <!-- <div class="number">
-                    <input type="button" >
-                    <input type="text">
-                    <input type="button" >
-                </div> -->
+                <number :stock="info.stock_quantity" @numchange="num"></number>
 
-                <!-- <div class="ball"></div> -->
+                <transition name='ball'
+                  v-on:before-enter="beforeEnter"
+                  v-on:enter="enter"
+                  v-on:after-enter="afterEnter"
+                  v-on:after-leave="afterLeave"
+                >
+                <div class="ball" v-show="isShow"></div>
+                </transition>
             </div>
             <div class="button">
                 <button class="mui-btn mui-btn-primary">立刻购买</button>
-                <button class="mui-btn mui-btn-danger" >加入购物车</button>
+                <button class="mui-btn mui-btn-danger" @click="addCart">加入购物车</button>
             </div>
         </div>
 
@@ -48,12 +50,15 @@
 //导出组件
 import slide from "../../Subcomp/slider.vue";
 import number from "../../Subcomp/number.vue";
+import VueObj from "../../../config/common";
+import { setData } from "../../../config/localstroge";
 export default {
   data() {
     return {
       info: {},
       imgurl: "getthumimages/" + this.id,
-      number: 1
+      count: 1,
+      isShow: false
     };
   },
   props: ["id"],
@@ -71,7 +76,7 @@ export default {
         .then(res => {
           if (res.status === 200 && res.data.status === 0) {
             if (res.data.message.length > 0) {
-              console.log(res);
+              // console.log(res);
               this.info = res.data.message[0];
             } else {
               console.log("服务器错误");
@@ -84,10 +89,36 @@ export default {
           console.log(err);
         });
     },
-    fn1(num){
-      // console.log(num);
-      this.number = num
-      console.log(this.number);
+    num(e) {
+      this.count = e;
+    },
+    addCart() {
+      this.isShow = true;
+
+      setData({ id: this.info.id, count: this.count });
+    },
+    beforeEnter(el) {
+      el.style.transform = "translate(0,0)";
+    },
+    enter(el, done) {
+      let elx = el.getBoundingClientRect().left;
+      let ely = el.getBoundingClientRect().top;
+
+      const target = document.querySelector(".mui-badge");
+      let targetx = target.getBoundingClientRect().left;
+      let targety = target.getBoundingClientRect().top;
+
+      let x = targetx - elx;
+      let y = targety - ely;
+
+      el.style.transform = `translate(${x}px,${y}px)`;
+      done();
+    },
+    afterEnter(el) {
+      this.isShow = false;
+    },
+    afterLeave(el) {
+      VueObj.$emit("subNum", this.count);
     }
   }
 };
@@ -99,15 +130,18 @@ export default {
 }
 
 .ball {
-  left: 115px;
+  left: 130px;
   top: 3px;
   position: absolute;
   width: 20px;
   height: 20px;
   border-radius: 10px;
   background-color: red;
-  transition: all 0.5s linear;
+  transition: opacity 0.3s, transform 0.5s 0.1s ease-out;
   z-index: 1000;
+}
+.ball-enter {
+  opacity: 0;
 }
 
 .mui-content {

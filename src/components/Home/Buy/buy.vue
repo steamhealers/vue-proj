@@ -68,7 +68,6 @@ export default {
     loadBottom() {
 		this.page++
       this.getgoods();
-      console.log(2);
     }
   }
 };

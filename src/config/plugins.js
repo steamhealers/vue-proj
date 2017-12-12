@@ -3,6 +3,8 @@ import { Indicator } from 'mint-ui'
 import { Toast } from 'mint-ui'
 import { Lazyload } from 'mint-ui';
 import { Loadmore } from "mint-ui";
+import { Switch } from 'mint-ui';
+
 import '../../statics/css/mui.css'
 
 import axios from 'axios'
@@ -14,5 +16,6 @@ Vue.prototype.axios=axios
 Vue.prototype.$Indicator=Indicator
 Vue.prototype.$Toast=Toast
 
+Vue.component(Switch.name, Switch);
 Vue.component(Loadmore.name, Loadmore);
 Vue.use(Lazyload)

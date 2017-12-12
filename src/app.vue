@@ -15,7 +15,7 @@
 				<span class="mui-tab-label">会员</span>
 			</router-link>
 			<router-link class="mui-tab-item" to="/cart">
-				<span class="mui-icon mui-icon-trash"><span class="mui-badge">9</span></span>
+				<span class="mui-icon mui-icon-trash"><span class="mui-badge">{{num}}</span></span>
 				<span class="mui-tab-label">购物车</span>
 			</router-link>
 			<router-link class="mui-tab-item" to="/search">
@@ -28,15 +28,21 @@
 
 <script>
 import '../statics/css/content.css'
+import VueObj from './config/common'
 export default {
   data() {
     return {
       msg: "这是一个新模版",
-      isShow: false
+      isShow: false,
+      num:0
     };
   },
   created() {
     this.judgeback(this.$route.path);
+    VueObj.$on('subNum',e=>{
+    this.num+=e
+    // console.log(this.num);
+  })
   },
   methods: {
     goback() {
