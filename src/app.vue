@@ -27,22 +27,28 @@
 </template>
 
 <script>
-import '../statics/css/content.css'
-import VueObj from './config/common'
+import "../statics/css/content.css";
+import VueObj from "./config/common";
+import { getData } from './config/localstroge'
 export default {
   data() {
     return {
       msg: "这是一个新模版",
       isShow: false,
-      num:0
+      num: 0
     };
   },
   created() {
     this.judgeback(this.$route.path);
-    VueObj.$on('subNum',e=>{
-    this.num+=e
-    // console.log(this.num);
-  })
+    VueObj.$on("subNum", e => {
+      this.num += e;
+      // console.log(this.num);
+    }),
+      VueObj.$on("update", e=> {
+        this.getUpdare()
+      });
+    this.getUpdare()
+
   },
   methods: {
     goback() {
@@ -55,6 +61,16 @@ export default {
       } else {
         this.isShow = false;
       }
+    },
+    getUpdare(){
+      let counts=0
+      let data = getData()
+      data.forEach(element => {
+        counts+=element.count
+      });
+      this.num=counts
+      
+      console.log(counts);
     }
   },
   watch: {

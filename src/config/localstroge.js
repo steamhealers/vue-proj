@@ -6,10 +6,10 @@ export function setData(json) {
     let data = getData()
     console.log(data);
     let hasdata = false
-    data.forEach(element => {
-        if (element.id == json.id) {
+    data.forEach(item => {
+        if (item.id == json.id) {
             hasdata = true
-            element.count += json.count
+            item.count += json.count
         }
     });
     if (!hasdata) {
@@ -20,9 +20,19 @@ export function setData(json) {
 
 export function upData(json){
     let data = getData()
-    data.forEach(element=>{
-        if(element.id==json.id){
-            element.count=json.count
+    data.forEach(item=>{
+        if(item.id==json.id){
+            item.count=json.count
+        }
+    })    
+    localStorage.setItem('goodslist', JSON.stringify(data))
+}
+
+export function delData(id){
+    let data = getData()
+    data.forEach((item,index)=>{
+        if(item.id==id){
+            data.splice(index,1)
         }
     })    
     localStorage.setItem('goodslist', JSON.stringify(data))

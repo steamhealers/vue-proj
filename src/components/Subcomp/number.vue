@@ -1,5 +1,5 @@
 <template>
-    <div class="mui-numbox" @click='refreshNum'>
+    <div class="mui-numbox">
         <button class="mui-btn mui-btn-numbox-minus" type="button" @click="sub">-</button>
         <input class="mui-input-numbox" type="number" v-model="number" v-on:blur="getNum">
         <button class="mui-btn mui-btn-numbox-plus" type="button" @click="add">+</button>
@@ -15,9 +15,9 @@ export default {
     };
   },
   created() {
-    if(this.id){
-      this.number=this.num
-    }
+
+      this.number=this.id?this.num:1;
+
     // console.log(ab);
   }, 
   props: ["stock",'num','id'],
@@ -39,6 +39,7 @@ export default {
     },
     getNum() {
       this.number = parseInt(this.number);
+      this.number=this.number?this.number:0
       if (this.number > this.stock) {
         this.number = this.stock;
       } else if (this.number < 0) {
@@ -49,11 +50,13 @@ export default {
     },
     communicate(){
       this.$emit('numchange',this.number)
+      this.refreshNum()
     },
     refreshNum(){
       console.log(1);
       console.log(this.number);
       upData({id:this.id,count:this.number})
+      this.$emit('refresh')
     }
   }
 };

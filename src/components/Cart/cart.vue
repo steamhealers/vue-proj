@@ -13,15 +13,15 @@
 				</h4>
 				<span>&yen;{{item.sell_price}}</span>
         <br>
-        <number :num="item.count" :id="item.id"></number>
-				<a >删除</a>
+        <number :num="item.count" :id="item.id" @refresh="refnum"></number>
+				<a href="javascript:;" @click="delGoods(item.id)">删除</a>
 			</div>
 		</div>
 
 		<div class="total">
 			<div class="left">
 				<h4>总计(不含运费):</h4>
-				<span>已经选择商品 1 件，共计￥2000元</span>
+				<span>已经选择商品{{numSum}} 件，共计￥{{priceSum}}元</span>
 			</div>
 			<div class="right">
 				<button  class="mui-btn mui-btn-danger">去结算</button>
@@ -34,61 +34,93 @@
 
 <script>
 import number from "../Subcomp/number.vue";
-import { getData } from "../../config/localstroge";
+import { getData, delData } from "../../config/localstroge";
+import VueObj from "../../config/common";
 //导出组件
 export default {
   data() {
     return {
-      values:[],
+      values: [],
       ids: "",
-      goods:[],
-      num1:12
+      goods: [],
+      num1: 12,
+      numSum:0,
+      priceSum:0
     };
   },
   components: {
     number
   },
   created() {
-    this.getshopcarlist()
+    this.getshopcarlist();
   },
   methods: {
     getshopcarlist() {
-      let data = getData()
-      let idarr = []
+      let data = getData();
+      let idarr = [];
       data.forEach(element => {
-         idarr.push(element.id)
+        idarr.push(element.id);
+        this.values.push(false)
       });
-      this.ids = idarr.join(',')
+      this.ids = idarr.join(",");
       console.log(this.ids);
-      if(!this.ids.length) return
+      if (!this.ids.length) return;
       this.$http
         .get("/goods/getshopcarlist/" + this.ids)
         .then(res => {
-          if(res.status===200&&res.data.status===0){
-            this.goods = res.data.message
-            this.goods.sort(function(item1,item2){
-              return item1.id>item2.id
-            })
-            data.sort(function(item1,item2){
-              return item1.id>item2.id
-            })
-            data.forEach((item,index)=>{
-              this.goods[index].count = item.count
-            })
+          if (res.status === 200 && res.data.status === 0) {
+            this.goods = res.data.message;
+            this.sortGoods()
           }
           console.log(res);
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    delGoods(id) {
+      console.log("del");
+      delData(id);
+      this.getshopcarlist();
+    },
+    refnum() {
+      this.sortGoods()      
+      VueObj.$emit("update");
+    },
+    sortGoods() {
+      let data = getData();
+      
+      this.goods.sort(function(item1, item2) {
+        return item1.id > item2.id;
+      });
+      data.sort(function(item1, item2) {
+        return item1.id > item2.id;
+      });
+      data.forEach((item, index) => {
+        this.goods[index].count = item.count;
+      });
+    }
+  },
+  watch: {
+    values() {
+      let nSum=0
+      let pSum=0
+      this.values.forEach((item, index) => {
+        if(item==true){
+        nSum+=parseInt(this.goods[index].count)
+        pSum+=parseFloat(this.goods[index].sell_price*this.goods[index].count)
+        }
+      });
+      this.numSum=nSum
+      this.priceSum=pSum
     }
   }
 };
 </script>
 
 <style scoped>
-img{
-  width:auto;
+img {
+  width: auto;
 }
 .mui-bar-tab ~ .mui-content {
   padding-bottom: 0;
